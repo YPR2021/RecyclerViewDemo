@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,31 +39,65 @@ public class ListViewActivity extends Activity {
 		for (int i = 'A'; i < 'Z'; i++) {
 			mDatas.add("" + (char) i);
 		}
-
+		LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(ListViewActivity.this);
+		mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		//设置item的排列方向,默认是垂直排列
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+		mRecyclerView.setLayoutManager(mLinearLayoutManager);
 		//如果item大小一样,设置这个可以提高效率
 		mRecyclerView.setHasFixedSize(true);
+		//设置item分隔线
+		mRecyclerView.addItemDecoration(new DividerItemDecoration(ListViewActivity.this,DividerItemDecoration.VERTICAL_LIST));
 		//设置增加和删除item的动画
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-		//设置item分隔线
-		mRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL_LIST));
+		//给item设置监听
+//		mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,mRecyclerView,mItemClickListener));
 		//设置adapter数据
-		mRecyclerView.setAdapter(new MyListAdapter());
+//		mRecyclerView.setAdapter(new MyListAdapter());
+		RecyclerViewAdapter myListAdapter = new RecyclerViewAdapter(this,mDatas);
+		myListAdapter.setOnItemClickListener(mListener);
+		mRecyclerView.setAdapter(myListAdapter);
 	}
 
-	private class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyViewHolder> {
-
+	private RecyclerViewAdapter.OnItemClickListener mListener = new RecyclerViewAdapter.OnItemClickListener() {
 		@Override
-		public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-			MyViewHolder holder = new MyViewHolder(LayoutInflater.from(ListViewActivity.this).inflate(R.layout.item_list, parent, false));
-			return holder;
+		public void OnItemClick(View v, int position) {
+			Toast.makeText(ListViewActivity.this, "点击了"+position, Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
-		public void onBindViewHolder(MyViewHolder holder, int position) {
-			holder.mText.setText(mDatas.get(position));
+		public boolean OnItemLongClick(View v, int position) {
+			Toast.makeText(ListViewActivity.this, "长按了"+position, Toast.LENGTH_SHORT).show();
+			return true;
+		}
+	};
+
+
+	private RecyclerItemClickListener.OnItemClickListener mItemClickListener = new RecyclerItemClickListener.OnItemClickListener() {
+		@Override
+		public void onItemClick(View view, int position) {
+			Toast.makeText(ListViewActivity.this, "点击了"+position, Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void onItemLongClick(View view, int position) {
+			Toast.makeText(ListViewActivity.this, "长按了"+position, Toast.LENGTH_SHORT).show();
+		}
+	};
+
+	private class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+		@Override
+		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, null);
+//			View view = View.inflate(parent.getContext(),R.layout.item_list,null);
+			//一定要设置这个,不然数据不会居中
+			view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+			return new MyViewHolder(view);
+		}
+
+		@Override
+		public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+			((MyViewHolder) holder).mText.setText(mDatas.get(position));
 		}
 
 		@Override
@@ -75,10 +110,8 @@ public class ListViewActivity extends Activity {
 
 			public MyViewHolder(View itemView) {
 				super(itemView);
-				mText = (TextView) itemView.findViewById(R.id.text);
+				mText = (TextView) itemView.findViewById(R.id.tv_text);
 			}
 		}
 	}
-
-
 }
