@@ -23,7 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 	protected interface OnItemClickListener {
 		void OnItemClick(View v, int position);
 
-		boolean OnItemLongClick(View v, int position);
+		void OnItemLongClick(View v, int position);
 	}
 
 	private OnItemClickListener listener;
@@ -41,13 +41,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, null);
 		view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		return new ViewHolder(view);
+		return new MyViewHolder(view);
 	}
 
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-		((ViewHolder) holder).mText.setText(mList.get(position));
-		((ViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
+		((MyViewHolder) holder).mText.setText(mList.get(position));
+		((MyViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -57,13 +57,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 				}
 			}
 		});
-		((ViewHolder)holder).itemView.setOnLongClickListener(new View.OnLongClickListener() {
+		((MyViewHolder)holder).itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
 			@Override
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
 				if (listener != null) {
-					return listener.OnItemLongClick(v, position);
+					listener.OnItemLongClick(v, position);
+					return true;
 				}
 				return false;
 			}
@@ -77,18 +78,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 	class MyViewHolder extends RecyclerView.ViewHolder {
 		TextView mText;
-
-		public MyViewHolder(View itemView) {
-			super(itemView);
-			mText = (TextView) itemView.findViewById(R.id.tv_text);
-		}
-	}
-
-	class ViewHolder extends RecyclerView.ViewHolder {
-		TextView mText;
 		public View itemView;
 
-		public ViewHolder(View itemView) {
+		public MyViewHolder(View itemView) {
 			super(itemView);
 			this.itemView = itemView;
 			mText = (TextView) itemView.findViewById(R.id.tv_text);

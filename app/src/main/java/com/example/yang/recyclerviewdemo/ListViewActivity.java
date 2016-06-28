@@ -40,7 +40,7 @@ public class ListViewActivity extends Activity {
 			mDatas.add("" + (char) i);
 		}
 		LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(ListViewActivity.this);
-		mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);//默认是垂直
 		//设置item的排列方向,默认是垂直排列
 		mRecyclerView.setLayoutManager(mLinearLayoutManager);
 		//如果item大小一样,设置这个可以提高效率
@@ -50,27 +50,14 @@ public class ListViewActivity extends Activity {
 		//设置增加和删除item的动画
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 		//给item设置监听
-//		mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,mRecyclerView,mItemClickListener));
+		mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,mRecyclerView,mItemClickListener));
 		//设置adapter数据
-//		mRecyclerView.setAdapter(new MyListAdapter());
-		RecyclerViewAdapter myListAdapter = new RecyclerViewAdapter(this,mDatas);
-		myListAdapter.setOnItemClickListener(mListener);
-		mRecyclerView.setAdapter(myListAdapter);
+		mRecyclerView.setAdapter(new MyListAdapter());
+		//第二种给item监听的方法
+//		RecyclerViewAdapter myListAdapter = new RecyclerViewAdapter(this,mDatas);
+//		myListAdapter.setOnItemClickListener(mListener);
+//		mRecyclerView.setAdapter(myListAdapter);
 	}
-
-	private RecyclerViewAdapter.OnItemClickListener mListener = new RecyclerViewAdapter.OnItemClickListener() {
-		@Override
-		public void OnItemClick(View v, int position) {
-			Toast.makeText(ListViewActivity.this, "点击了"+position, Toast.LENGTH_SHORT).show();
-		}
-
-		@Override
-		public boolean OnItemLongClick(View v, int position) {
-			Toast.makeText(ListViewActivity.this, "长按了"+position, Toast.LENGTH_SHORT).show();
-			return true;
-		}
-	};
-
 
 	private RecyclerItemClickListener.OnItemClickListener mItemClickListener = new RecyclerItemClickListener.OnItemClickListener() {
 		@Override
@@ -114,4 +101,17 @@ public class ListViewActivity extends Activity {
 			}
 		}
 	}
+
+	private RecyclerViewAdapter.OnItemClickListener mListener = new RecyclerViewAdapter.OnItemClickListener() {
+		@Override
+		public void OnItemClick(View v, int position) {
+			Toast.makeText(ListViewActivity.this, "点击"+position, Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void OnItemLongClick(View v, int position) {
+			Toast.makeText(ListViewActivity.this, "长按"+position, Toast.LENGTH_SHORT).show();
+//			return true;
+		}
+	};
 }
