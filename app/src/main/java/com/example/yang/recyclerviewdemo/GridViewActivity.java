@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ public class GridViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list);
+		setContentView(R.layout.activity_recylerview);
 		mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
 		initData();
 	}
@@ -64,7 +63,7 @@ public class GridViewActivity extends Activity {
 		mRecyclerView.setAdapter(new RecyclerView.Adapter() {
 			@Override
 			public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-				View view = LayoutInflater.from(GridViewActivity.this).inflate(R.layout.item_list, null);
+				View view = LayoutInflater.from(GridViewActivity.this).inflate(R.layout.item, null);
 //				view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 				return new GridHolder(view);
 			}

@@ -1,7 +1,6 @@
 package com.example.yang.recyclerviewdemo;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +27,7 @@ public class ListViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list);
+		setContentView(R.layout.activity_recylerview);
 		mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
 		initData();
 	}
@@ -75,8 +74,8 @@ public class ListViewActivity extends Activity {
 
 		@Override
 		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, null);
-//			View view = View.inflate(parent.getContext(),R.layout.item_list,null);
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, null);
+//			View view = View.inflate(parent.getContext(),R.layout.item,null);
 			//一定要设置这个,不然数据不会居中
 			view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 			return new MyViewHolder(view);

@@ -128,7 +128,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
 		if (layoutManager instanceof GridLayoutManager)
 		{
 			childCount = childCount - childCount % spanCount;
-			if (pos >= childCount)// 如果是最后一行，则不需要绘制底部
+			if (pos +1>= childCount)// 如果是最后一行，则不需要绘制底部
 				return true;
 		} else if (layoutManager instanceof StaggeredGridLayoutManager)
 		{
@@ -139,7 +139,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
 			{
 				childCount = childCount - childCount % spanCount;
 				// 如果是最后一行，则不需要绘制底部
-				if (pos >= childCount)
+				if (pos +1>= childCount)
 					return true;
 			} else
 			// StaggeredGridLayoutManager 且横向滚动
